@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <title></title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+  <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Popup styling */
+
+    .mapboxgl-popup {
+      padding-bottom: 5px;
+    }
+
+    .mapboxgl-popup-close-button {
+      display: none;
+    }
+
+    .mapboxgl-popup-content {
+      font: 400 15px/22px;
+      padding: 0;
+      width: 250px;
+      font-family:"GT America"
+    }
+
+    .mapboxgl-popup-content-wrapper {
+      padding: 1%;
+    }
+
+    .mapboxgl-popup-content h3 {
+      background: rgb(61, 59, 59);
+      text-align: center;
+      color: #fff;
+      margin: 0;
+      display: block;
+      padding: 15px;
+      font-weight: 700;
+      margin-top: -5px;
+      font-family:"GT America Bold";
+      text-transform:uppercase;
+
+    }
+
+    .mapboxgl-popup-content h4 {
+      margin: 0;
+      display: block;
+      padding: 10px 3px 10px 10px;
+      font-weight: 400;
+    }
+
+    .mapboxgl-container {
+      cursor: pointer;
+    }
+
+    .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
+      margin-top: 3px;
+    }
+
+    .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+      border-bottom-color: rgb(61, 59, 59);
+    }
+
+    #menu {
+background: #fff;
+position: absolute;
+z-index: 1;
+top: 10px;
+right: 10px;
+border-radius: 3px;
+width: 120px;
+border: 1px solid rgba(0, 0, 0, 0.4);
+font-family: "GT America Condensed Bold", sans-serif;
+text-transform:uppercase;
+}
+ 
+#menu a {
+font-size: 13px;
+color: #404040;
+display: block;
+margin: 0;
+padding: 0;
+padding: 10px;
+text-decoration: none;
+border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+text-align: left;
+}
+ 
+#menu a:last-child {
+border: none;
+}
+ 
+/* #menu a:hover {
+background-color: #f8f8f8;
+color: #404040;
+} */
+ 
+
+
+a#passedmenu  {
+  background-color:white;
+  color:#e24554;
+}
+a#passedmenu.active {
+background-color:#e24554;
+color:white
+}
+
+a#passedmenu.active:hover {
+background:darkred;
+}
+
+a#passedmenu.active:before {
+content:'▶ ';
+}
+
+a#passedmenu:before {
+content:'▷ ';
+}
+
+
+a#deniedmenu  {
+  background-color:white;
+  color:#0b3879;
+}
+a#deniedmenu.active {
+background-color:#0b3879;
+color:white
+}
+
+a#deniedmenu.active:hover {
+background:darkblue;
+}
+
+a#deniedmenu.active:before {
+content:'▶ ';
+}
+
+a#deniedmenu:before {
+content:'▷ ';
+}
+
+a#potentialmenu  {
+  background-color:white;
+  color:#eed21b;
+}
+a#potentialmenu.active {
+background-color:#eed21b;
+color:white
+}
+
+a#potentialmenu.active:hover {
+background:goldenrod;
+}
+
+a#potentialmenu.active:before {
+content:'▶ ';
+}
+
+a#potentialmenu:before {
+content:'▷ ';
+}
+
+
+
+a#proactivemenu  {
+  background-color:white;
+  color:#ec9f97;
+}
+a#proactivemenu.active {
+background-color:#ec9f97;
+color:white
+}
+
+a#proactivemenu.active:hover {
+background:#ff80cc;
+}
+
+a#proactivemenu.active:before {
+content:'▶ ';
+}
+
+a#proactivemenu:before {
+content:'▷ ';
+}
+
+h3.proactive {
+  background-color:#ec9f97
+}
+
+h3.potential {
+  background-color:#eed21b
+}
+
+h3.denied {
+  background-color:#0b3879
+}
+
+h3.passed {
+  background-color:#e24554
+}
+  </style>
+</head>
+
+<body>
+  <nav id="menu"></nav>
+  <div id='map'></div>
+
+  <!-- PASSED SCRIPT-->>
+  <script>
+
+    var transformRequest = (url, resourceType) => {
+      var isMapboxRequest =
+        url.slice(8, 22) === "api.mapbox.com" ||
+        url.slice(10, 26) === "tiles.mapbox.com";
+      return {
+        url: isMapboxRequest
+          ? url.replace("?", "?pluginName=sheetMapper&")
+          : url
+      };
+    };
+    //YOUR TURN: add your Mapbox token 
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZXZhbm9uZWlsIiwiYSI6ImNpb3Vld3BtejAwcmp1Zm00bnY0cGZja2IifQ._kXkIWTy9bzQUcXhO5bgrA'; //Mapbox token 
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/evanoneil/ckah8cg1p02vv1jo0xep7uiu9', //stylesheet location
+      // center: [-99.5120986, 31.8160381], // starting position
+
+    });
+
+    $(document).ready(function () {
+      $.ajax({
+        type: "GET",
+        //YOUR TURN: Replace with csv export link
+        url: 'https://docs.google.com/spreadsheets/d/1TqKu8IaVLS7dnwvhBugg0LfSW7c1zbJLRx4VtGrlCpE/gviz/tq?tqx=out:csv&sheet=passed',
+        dataType: "text",
+        success: function (passed) { makeGeoJSON(passed); }
+      });
+
+
+      function makeGeoJSON(passed) {
+        csv2geojson.csv2geojson(passed, {
+          latfield: 'Lat',
+          lonfield: 'Long',
+          delimiter: ','
+        }, function (err, data) {
+          map.on('load', function () {
+
+            //Add the the layer to the map 
+            map.addLayer({
+              'id': 'passed',
+              'type': 'circle',
+              'source': {
+                'type': 'geojson',
+                'data': data
+              },
+              'paint': {
+                'circle-radius': 6,
+                'circle-color': "#e24554",
+                'circle-stroke-color': 'black',
+    'circle-stroke-width': 1
+              }
+            });
+
+              // map.loadImage(
+              //   '/images/passed.png',
+              //   function (error, image) {
+              //     if (error) throw error;
+              //     map.addImage('cat', image);
+              //     map.addSource('point', {
+              //       'type': 'geojson',
+              //       'data': data
+              //     });
+              //     map.addLayer({
+              //       'id': 'points',
+              //       'type': 'symbol',
+              //       'source': 'point',
+              //       'layout': {
+              //         'icon-image': 'cat',
+              //         'icon-size': 0.05
+              //       }
+              //     });
+              //   }
+              // );
+            
+              
+
+            // When a click event occurs on a feature in the csvData layer, open a popup at the
+            // location of the feature, with description HTML from its properties.
+            map.on('click', 'passed', function (e) {
+              var coordinates = e.features[0].geometry.coordinates.slice();
+
+              //set popup text 
+              //You can adjust the values of the popup to match the headers of your CSV. 
+              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
+              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` +`<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.Tracker + `</h4>`;
+
+              // Ensure that if the map is zoomed out such that multiple
+              // copies of the feature are visible, the popup appears
+              // over the copy being pointed to.
+              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+              }
+
+              //add Popup to map
+
+              new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.on('mouseenter', 'passed', function () {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'places', function () {
+              map.getCanvas().style.cursor = '';
+            });
+
+  
+
+          });
+
+        });
+      };
+    });
+
+    // enumerate ids of the layers
+    var toggleableLayerIds = ['passed'];
+
+   // set up the corresponding toggle button for each layer
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+link.id = 'passedmenu'
+ 
+link.onclick = function(e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+// toggle layer visibility by changing the layout object's visibility property
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+
+
+  </script>
+
+  <!-- DENIED SCRIPT-->>
+  <script>
+
+    var transformRequest = (url, resourceType) => {
+      var isMapboxRequest =
+        url.slice(8, 22) === "api.mapbox.com" ||
+        url.slice(10, 26) === "tiles.mapbox.com";
+      return {
+        url: isMapboxRequest
+          ? url.replace("?", "?pluginName=sheetMapper&")
+          : url
+      };
+    };
+    //YOUR TURN: add your Mapbox token 
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZXZhbm9uZWlsIiwiYSI6ImNpb3Vld3BtejAwcmp1Zm00bnY0cGZja2IifQ._kXkIWTy9bzQUcXhO5bgrA'; //Mapbox token 
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/evanoneil/ckah8cg1p02vv1jo0xep7uiu9', //stylesheet location
+      // center: [-99.5120986, 31.8160381], // starting position
+
+    });
+
+    $(document).ready(function () {
+      $.ajax({
+        type: "GET",
+        //YOUR TURN: Replace with csv export link
+        url: 'https://docs.google.com/spreadsheets/d/1TqKu8IaVLS7dnwvhBugg0LfSW7c1zbJLRx4VtGrlCpE/gviz/tq?tqx=out:csv&sheet=denied',
+        dataType: "text",
+        success: function (denied) { makeGeoJSON(denied); }
+      });
+
+
+      function makeGeoJSON(denied) {
+        csv2geojson.csv2geojson(denied, {
+          latfield: 'Lat',
+          lonfield: 'Long',
+          delimiter: ','
+        }, function (err, data) {
+          map.on('load', function () {
+
+            //Add the the layer to the map 
+            map.addLayer({
+              'id': 'denied',
+              'type': 'circle',
+              'source': {
+                'type': 'geojson',
+                'data': data
+              },
+              'paint': {
+                'circle-radius': 6,
+                'circle-color': "#0b3879",
+                'circle-stroke-color': 'black',
+    'circle-stroke-width': 1
+              }
+            });
+
+
+            // When a click event occurs on a feature in the csvData layer, open a popup at the
+            // location of the feature, with description HTML from its properties.
+            map.on('click', 'denied', function (e) {
+              var coordinates = e.features[0].geometry.coordinates.slice();
+
+              //set popup text 
+              //You can adjust the values of the popup to match the headers of your CSV. 
+              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
+              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` +`<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.Tracker + `</h4>`;
+
+              // Ensure that if the map is zoomed out such that multiple
+              // copies of the feature are visible, the popup appears
+              // over the copy being pointed to.
+              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+              }
+
+              //add Popup to map
+
+              new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.on('mouseenter', 'denied', function () {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'places', function () {
+              map.getCanvas().style.cursor = '';
+            });
+
+  
+
+          });
+
+        });
+      };
+    });
+
+    // enumerate ids of the layers
+    var toggleableLayerIds = ['denied'];
+
+   // set up the corresponding toggle button for each layer
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+link.id = 'deniedmenu';
+ 
+link.onclick = function(e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+// toggle layer visibility by changing the layout object's visibility property
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+
+
+  </script>
+
+  <!-- potential SCRIPT-->>
+  <script>
+
+    var transformRequest = (url, resourceType) => {
+      var isMapboxRequest =
+        url.slice(8, 22) === "api.mapbox.com" ||
+        url.slice(10, 26) === "tiles.mapbox.com";
+      return {
+        url: isMapboxRequest
+          ? url.replace("?", "?pluginName=sheetMapper&")
+          : url
+      };
+    };
+    //YOUR TURN: add your Mapbox token 
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZXZhbm9uZWlsIiwiYSI6ImNpb3Vld3BtejAwcmp1Zm00bnY0cGZja2IifQ._kXkIWTy9bzQUcXhO5bgrA'; //Mapbox token 
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/evanoneil/ckah8cg1p02vv1jo0xep7uiu9', //stylesheet location
+
+    });
+
+    $(document).ready(function () {
+      $.ajax({
+        type: "GET",
+        //YOUR TURN: Replace with csv export link
+        url: 'https://docs.google.com/spreadsheets/d/1TqKu8IaVLS7dnwvhBugg0LfSW7c1zbJLRx4VtGrlCpE/gviz/tq?tqx=out:csv&sheet=potential',
+        dataType: "text",
+        success: function (potential) { makeGeoJSON(potential); }
+      });
+
+
+      function makeGeoJSON(potential) {
+        csv2geojson.csv2geojson(potential, {
+          latfield: 'Lat',
+          lonfield: 'Long',
+          delimiter: ','
+        }, function (err, data) {
+          map.on('load', function () {
+
+            //Add the the layer to the map 
+            map.addLayer({
+              'id': 'potential',
+              'type': 'circle',
+              'source': {
+                'type': 'geojson',
+                'data': data
+              },
+              'paint': {
+                'circle-radius': 6,
+                'circle-color': "#eed21b",
+                'circle-stroke-color': 'black',
+    'circle-stroke-width': 1
+              }
+            });
+
+
+            // When a click event occurs on a feature in the csvData layer, open a popup at the
+            // location of the feature, with description HTML from its properties.
+            map.on('click', 'potential', function (e) {
+              var coordinates = e.features[0].geometry.coordinates.slice();
+
+              //set popup text 
+              //You can adjust the values of the popup to match the headers of your CSV. 
+              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
+              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` +`<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.Tracker + `</h4>`;
+
+              // Ensure that if the map is zoomed out such that multiple
+              // copies of the feature are visible, the popup appears
+              // over the copy being pointed to.
+              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+              }
+
+              //add Popup to map
+
+              new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.on('mouseenter', 'potential', function () {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'places', function () {
+              map.getCanvas().style.cursor = '';
+            });
+
+  
+
+          });
+
+        });
+      };
+    });
+
+    // enumerate ids of the layers
+    var toggleableLayerIds = ['potential'];
+
+   // set up the corresponding toggle button for each layer
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+link.id = 'potentialmenu';
+ 
+link.onclick = function(e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+// toggle layer visibility by changing the layout object's visibility property
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+
+
+  </script>
+
+
+  <!-- proactive SCRIPT-->>
+  <script>
+
+    var transformRequest = (url, resourceType) => {
+      var isMapboxRequest =
+        url.slice(8, 22) === "api.mapbox.com" ||
+        url.slice(10, 26) === "tiles.mapbox.com";
+      return {
+        url: isMapboxRequest
+          ? url.replace("?", "?pluginName=sheetMapper&")
+          : url
+      };
+    };
+    //YOUR TURN: add your Mapbox token 
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZXZhbm9uZWlsIiwiYSI6ImNpb3Vld3BtejAwcmp1Zm00bnY0cGZja2IifQ._kXkIWTy9bzQUcXhO5bgrA'; //Mapbox token 
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/evanoneil/ckah8cg1p02vv1jo0xep7uiu9', //stylesheet location
+       // starting zoom
+      // transformRequest: transformRequest
+    });
+
+    $(document).ready(function () {
+      $.ajax({
+        type: "GET",
+        //YOUR TURN: Replace with csv export link
+        url: 'https://docs.google.com/spreadsheets/d/1TqKu8IaVLS7dnwvhBugg0LfSW7c1zbJLRx4VtGrlCpE/gviz/tq?tqx=out:csv&sheet=proactive',
+        dataType: "text",
+        success: function (proactive) { makeGeoJSON(proactive); }
+      });
+
+
+      function makeGeoJSON(proactive) {
+        csv2geojson.csv2geojson(proactive, {
+          latfield: 'Lat',
+          lonfield: 'Long',
+          delimiter: ','
+        }, function (err, data) {
+          map.on('load', function () {
+
+            //Add the the layer to the map 
+            map.addLayer({
+              'id': 'proactive',
+              'type': 'circle',
+              'source': {
+                'type': 'geojson',
+                'data': data
+              },
+              'paint': {
+                'circle-radius': 6,
+                'circle-color': "#ec9f97",
+                'circle-stroke-color': 'black',
+    'circle-stroke-width': 1
+              }
+            });
+
+
+            // When a click event occurs on a feature in the csvData layer, open a popup at the
+            // location of the feature, with description HTML from its properties.
+            map.on('click', 'proactive', function (e) {
+              var coordinates = e.features[0].geometry.coordinates.slice();
+
+              //set popup text 
+              //You can adjust the values of the popup to match the headers of your CSV. 
+              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
+              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` +`<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.Tracker + `</h4>`;
+
+              // Ensure that if the map is zoomed out such that multiple
+              // copies of the feature are visible, the popup appears
+              // over the copy being pointed to.
+              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+              }
+
+              //add Popup to map
+
+              new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.on('mouseenter', 'proactive', function () {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'places', function () {
+              map.getCanvas().style.cursor = '';
+            });
+
+
+
+          });
+
+        });
+      };
+    });
+
+    // enumerate ids of the layers
+    var toggleableLayerIds = ['proactive'];
+
+  // set up the corresponding toggle button for each layer
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+ 
+var link = document.createElement('a');
+link.href = '#';
+link.className = 'active';
+link.textContent = id;
+link.id = 'proactivemenu';
+ 
+link.onclick = function(e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+ 
+// toggle layer visibility by changing the layout object's visibility property
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+
+  </script>
+
+</body>
+
+</html>
