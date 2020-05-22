@@ -6,36 +6,61 @@
 <style>
 
 @font-face {
-    font-family: "GT America Bold";
-    src: url(/type/GT-America-Standard-Bold.ttf) format('ttf');
-    src: url(/type/GT-America-Standard-Bold.woff) format('woff');
-    src: url(/type/GT-America-Standard-Bold.woff2) format('woff2');
-    src: url(/type/GT-America-Standard-Bold.eot) format('eot');
-
+    font-family: GTAmericaBold;
+    src: url('/type/GT-America-Standard-Bold.eot');
+  src: url('/type/GT-America-Standard-Bold?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Standard-Bold.woff2') format('woff2'), 
+       url('/type/GT-America-Standard-Bold.woff') format('woff'),
+       url('/type/GT-America-Standard-Bold.ttf')  format('truetype');
 }
 
 @font-face {
-    font-family: "GT America";
-    src: url(/type/GT-America-Standard-Regular.ttf) format('ttf');
-    src: url(/type/GT-America-Standard-Regular.woff) format('woff');
-    src: url(/type/GT-America-Standard-Regular.woff2) format('woff2');
-    src: url(/type/GT-America-Standard-Regular.eot) format('eot');
+    font-family: GTAmerica;
+    src: url('/type/GT-America-Standard-Regular.eot');
+  src: url('/type/GT-America-Standard-Regular?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Standard-Regular.woff2') format('woff2'), 
+       url('/type/GT-America-Standard-Regular.woff') format('woff'),
+       url('/type/GT-America-Standard-Regular.ttf')  format('truetype');
 
 
 }
 @font-face {
-    font-family: "GT America Condensed Bold";
-    src: url(/type/GT-America-Condensed-Bold.ttf) format('ttf');
-    src: url(/type/GT-America-Condensed-Bold.woff) format('woff');
-    src: url(/type/GT-America-Condensed-Bold.woff2) format('woff2');
-    src: url(/type/GT-America-Condensed-Bold.eot) format('eot');
+    font-family: GTAmericaCondensedBold;
+
+    src: url('/type/GT-America-Condensed-Bold.eot');
+  src: url('/type/GT-America-Condensed-Bold?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Condensed-Bold.woff2') format('woff2'), 
+       url('/type/GT-America-Condensed-Bold.woff') format('woff'),
+       url('/type/GT-America-Condensed-Bold.ttf')  format('truetype');
 }
 
-  html {
-    font-family: "GT America";
-    
+h1, h2, h3, a  {
+  font-family:'GTAmericaBold';
+}
 
-  }
+p {
+  font-family:'GTAmerica';
+}
+
+
+html{
+    -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
+  -moz-font-feature-settings:"kern" 1; 
+  -ms-font-feature-settings:"kern" 1; 
+  -o-font-feature-settings:"kern" 1; 
+  -webkit-font-feature-settings:"kern" 1; 
+  font-feature-settings:"kern" 1;
+  font-kerning: normal;
+  
+}
+
+body {
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
+    }
 
 
 
@@ -169,6 +194,8 @@
   opacity: 1;
 }
 .form-group {
+  font-family:'GTAmericaCondensedBold';
+
   display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
@@ -198,6 +225,7 @@
   font-weight: 500;
   line-height: 1;
   text-transform: uppercase;
+  font-family:'GTAmericaBold';
   letter-spacing: .2em;
 }
 .two .form-group label {

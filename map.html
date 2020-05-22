@@ -11,35 +11,45 @@
   <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <style>
-    @font-face {
-    font-family: "GT America Bold";
-    src: url(/type/GT-America-Standard-Bold.ttf) format('ttf');
-    src: url(/type/GT-America-Standard-Bold.woff) format('woff');
-    src: url(/type/GT-America-Standard-Bold.woff2) format('woff2');
-    src: url(/type/GT-America-Standard-Bold.eot) format('eot');
-
+@font-face {
+    font-family: GTAmericaBold;
+    src: url('/type/GT-America-Standard-Bold.eot');
+  src: url('/type/GT-America-Standard-Bold?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Standard-Bold.woff2') format('woff2'), 
+       url('/type/GT-America-Standard-Bold.woff') format('woff'),
+       url('/type/GT-America-Standard-Bold.ttf')  format('truetype');
 }
 
 @font-face {
-    font-family: "GT America";
-    src: url(/type/GT-America-Standard-Regular.ttf) format('ttf');
-    src: url(/type/GT-America-Standard-Regular.woff) format('woff');
-    src: url(/type/GT-America-Standard-Regular.woff2) format('woff2');
-    src: url(/type/GT-America-Standard-Regular.eot) format('eot');
+    font-family: GTAmerica;
+    src: url('/type/GT-America-Standard-Regular.eot');
+  src: url('/type/GT-America-Standard-Regular?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Standard-Regular.woff2') format('woff2'), 
+       url('/type/GT-America-Standard-Regular.woff') format('woff'),
+       url('/type/GT-America-Standard-Regular.ttf')  format('truetype');
 
 
 }
 @font-face {
-    font-family: "GT America Condensed Bold";
-    src: url(/type/GT-America-Condensed-Bold.ttf) format('ttf');
-    src: url(/type/GT-America-Condensed-Bold.woff) format('woff');
-    src: url(/type/GT-America-Condensed-Bold.woff2) format('woff2');
-    src: url(/type/GT-America-Condensed-Bold.eot) format('eot');
+    font-family: GTAmericaCondensedBold;
+
+    src: url('/type/GT-America-Condensed-Bold.eot');
+  src: url('/type/GT-America-Condensed-Bold?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Condensed-Bold.woff2') format('woff2'), 
+       url('/type/GT-America-Condensed-Bold.woff') format('woff'),
+       url('/type/GT-America-Condensed-Bold.ttf')  format('truetype');
+}
+
+html{
+    -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
 }
 
 body {
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
     }
 
 
@@ -64,7 +74,7 @@ body {
       font: 400 15px/22px;
       padding: 0;
       width: 250px;
-      font-family:"GT America"
+      font-family:'GTAmerica'
     }
 
     .mapboxgl-popup-content-wrapper {
@@ -80,7 +90,7 @@ body {
       padding: 15px;
       font-weight: 700;
       margin-top: -5px;
-      font-family:"GT America Bold";
+      font-family:'GTAmericaBold';
       text-transform:uppercase;
 
     }
@@ -113,7 +123,7 @@ right: 10px;
 border-radius: 3px;
 width: 120px;
 border: 1px solid rgba(0, 0, 0, 0.4);
-font-family: "GT America Condensed Bold", sans-serif;
+font-family: 'GTAmericaCondensedBold', sans-serif;
 text-transform:uppercase;
 }
  
