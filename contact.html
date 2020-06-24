@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<title> </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+<style>
+
+@font-face {
+    font-family: GTAmericaBold;
+    src: url('/type/GT-America-Standard-Bold.eot');
+  src: url('/type/GT-America-Standard-Bold?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Standard-Bold.woff2') format('woff2'), 
+       url('/type/GT-America-Standard-Bold.woff') format('woff'),
+       url('/type/GT-America-Standard-Bold.ttf')  format('truetype');
+}
+
+@font-face {
+    font-family: GTAmerica;
+    src: url('/type/GT-America-Standard-Regular.eot');
+  src: url('/type/GT-America-Standard-Regular?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Standard-Regular.woff2') format('woff2'), 
+       url('/type/GT-America-Standard-Regular.woff') format('woff'),
+       url('/type/GT-America-Standard-Regular.ttf')  format('truetype');
+
+
+}
+@font-face {
+    font-family: GTAmericaCondensedBold;
+
+    src: url('/type/GT-America-Condensed-Bold.eot');
+  src: url('/type/GT-America-Condensed-Bold?#iefix') format('embedded-opentype'),
+       url('/type/GT-America-Condensed-Bold.woff2') format('woff2'), 
+       url('/type/GT-America-Condensed-Bold.woff') format('woff'),
+       url('/type/GT-America-Condensed-Bold.ttf')  format('truetype');
+}
+
+h1, h2, h3, a  {
+  font-family:'GTAmericaBold';
+}
+
+p {
+  font-family:'GTAmerica';
+}
+
+
+html{
+    -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
+  -moz-font-feature-settings:"kern" 1; 
+  -ms-font-feature-settings:"kern" 1; 
+  -o-font-feature-settings:"kern" 1; 
+  -webkit-font-feature-settings:"kern" 1; 
+  font-feature-settings:"kern" 1;
+  font-kerning: normal;
+  
+}
+
+body {
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased; /* Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
+    }
+
+
+
+  .highlight {
+    background: #f79927;
+
+  }
+
+  .highlight-pink {
+    -webkit-clip-path: polygon(0 0, 100% 0, 90% 100%, 0 90%);
+    clip-path: polygon(20% 0, 100% 0, 80% 100%, 0 100%);
+    padding: 1rem 3rem 1rem 3rem;
+  }
+
+  .bg_pink {
+    background-color: #99cfa8;
+
+  }
+
+  .bg_blue {
+    background-color: #f79927;
+
+  }
+
+  .f-subsubheadline {
+    font-size: 5rem;
+  }
+
+  .secondary-text {
+margin-top:-2rem;
+margin-bottom:2rem;
+  }
+
+  .internal-button {
+    background-color:#99cfa8;
+    padding:1.5em;
+    font-weight:bold;
+    text-transform:uppercase;
+    color:white;
+    transform: rotate(-5deg);
+  }
+
+  .hero-header {
+    position: absolute;
+    z-index: 100;
+    /* width: 50vw;
+    height: 66vh; */
+    -webkit-clip-path: polygon(0 0, 100% 0, 90% 100%, 0 90%);
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    /* padding: 4rem 7.5vw 8rem; */
+  }
+
+  .image {
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-animation: spin 20s linear infinite;
+    -moz-animation: spin 20s linear infinite;
+    animation: spin 20s linear infinite;
+  }
+
+  @-moz-keyframes spin {
+    100% {
+      -moz-transform: rotate(360deg);
+    }
+  }
+
+  @-webkit-keyframes spin {
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+
+  }
+
+  .aclu_red {
+      color:#e44554;
+    }
+
+    .aclu_blue {
+      color:#0b3879;
+    }
+
+    .bg-aclu_blue {
+      background-color:#0b3879;
+    }
+
+    .form {
+  z-index: 15;
+  position: relative;
+  background: #FFFFFF;
+  width: 600px;
+  border-radius: 4px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 100px auto 10px;
+  overflow: hidden;
+}
+.form-toggle {
+  z-index: 10;
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  background: #FFFFFF;
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  -webkit-transform: translate(0, -25%) scale(0);
+          transform: translate(0, -25%) scale(0);
+  opacity: 0;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.form-toggle:before, .form-toggle:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 4px;
+  background: #4285F4;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.form-toggle:before {
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+.form-toggle:after {
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+.form-toggle.visible {
+  -webkit-transform: translate(0, -25%) scale(1);
+          transform: translate(0, -25%) scale(1);
+  opacity: 1;
+}
+.form-group {
+  font-family:'GTAmericaCondensedBold';
+
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  margin: 0 0 20px;
+}
+.form-group:last-child {
+  margin: 0;
+}
+.form-group label {
+  display: block;
+  margin: 0 0 10px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+}
+
+.form-group-long label {
+  display: block;
+  margin: 0 0 10px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  font-family:'GTAmericaBold';
+  letter-spacing: .2em;
+}
+.two .form-group label {
+  color: #FFFFFF;
+}
+.form-group input {
+  outline: none;
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+
+.form-group-long input  {
+  outline: none;
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  height:7rem;
+  margin-bottom:2rem;
+}
+.form-group input:focus {
+  color: rgba(0, 0, 0, 0.8);
+}
+.two .form-group input {
+  color: #FFFFFF;
+}
+.two .form-group input:focus {
+  color: #FFFFFF;
+}
+.form-group button {
+  outline: none;
+  background: #4285F4;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 20px;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.two .form-group button {
+  background: #FFFFFF;
+  color: #4285F4;
+}
+.form-group .form-remember {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.form-group .form-remember input[type='checkbox'] {
+  display: inline-block;
+  width: auto;
+  margin: 0 10px 0 0;
+}
+.form-group .form-recovery {
+  color: #4285F4;
+  font-size: 12px;
+  text-decoration: none;
+}
+.form-panel {
+  padding: 60px calc(5% + 60px) 60px 60px;
+  box-sizing: border-box;
+}
+.form-panel.one:before {
+  content: '';
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+.form-panel.one.hidden:before {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+.form-panel.two {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 95%;
+  background: #4285F4;
+  width: 100%;
+  min-height: 100%;
+  padding: 60px calc(10% + 60px) 60px 60px;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+.form-panel.two:before, .form-panel.two:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 60px;
+  left: 1.5%;
+  background: rgba(255, 255, 255, 0.2);
+  height: 30px;
+  width: 2px;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+.form-panel.two:after {
+  left: 3%;
+}
+.form-panel.two:hover {
+  left: 93%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.form-panel.two:hover:before, .form-panel.two:hover:after {
+  opacity: 0;
+}
+.form-panel.two.active {
+  left: 10%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
+.form-panel.two.active:before, .form-panel.two.active:after {
+  opacity: 0;
+}
+.form-header {
+  margin: 0 0 40px;
+}
+.form-header h1 {
+  padding: 4px 0;
+  color: #4285F4;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.two .form-header h1 {
+  position: relative;
+  z-index: 40;
+  color: #FFFFFF;
+}
+
+.rotate {
+  transform: rotate(-5deg);
+}
+
+.rotate2 {
+  transform: rotate(5deg);
+}
+
+.rotate3 {
+  transform: rotate(-3deg);
+}
+</style>
+
+<body>
+  <nav class="bg-white">
+    <div class=" center w-100 dt">
+      <div class="dtc w5 v-mid pa3">
+        <a href="/" class="dib">
+          <img src="/images/logo.png"> </a>
+      </div>
+      <div class="dtc v-mid tr pa3 ttu ">
+        <a class=" f5 fw7 hover-black no-underline black-70 dn dib-ns pv2 ph3" href="/resources.html">Resources</a>
+        <a class=" f5 fw7 hover-black no-underline black-70 dn dib-ns pv2 ph3" href="/">Updates</a>
+        <a class=" f5 fw7 hover-black no-underline black-70 dn dib-l pv2 ph3" href="/">Get in Touch</a>
+        <a class="dib-l internal-button no-underline rotate2 grow pv2" href="#take-action">Join the Movement</a>
+      </div>
+    </div>
+  </nav>
+  <article class="v-mid flex w-100">
+    <div class="w-100 flex " style="background-image: url('/images/newcolor-top.png');background-size: cover; ">
+      <div class="w-60 pt2 pb5 highlight rotate">
+        <h1 class="f-subsubheadline pl5 pr2 mr6 lh-solid fw3 white pb0">We <br />believe <br />in a Texas</h1> 
+        <h3 class="f3 lh-copy pl5 pr2 mr6 lh-solid white mb5 secondary-text">where every person, no matter where they live or how much money they make, can control their destiny -- for themselves and their families.</h3>
+        <div class="center pl6 pr5 mr6"><a href="#take-action"
+            class="dtc internal-button no-underline rotate2 grow f4"><span class="">Join the Movement</span></a> </div>
+      </div>
+    </div>
+  </article>
+
+  <section class=" pt6">
+    <div class="center mw8 f5 pv5 lh-copy ph2 pv5 flex">
+      <!-- <div class="w-40 pv3 pr5">
+        <img class="image" src="/images/icon_spin.png">
+      </div> -->
+      <div class="w-80 center">
+        <h2>
+          Access to reproductive care and abortion allows individuals and families to receive the support needed to thrive in our state. But right now, anti-abortion extremists are crisscrossing the state, pressuring Texas municipalities to adopt ordinances that would outlaw abortion in our communities. 
+        </h2>
+        <a href="#take-action"
+            class="dtc internal-button no-underline rotate grow"><span class="">Join the Movement</span></a> 
+            <br />
+        <p>
+          Texans are already hit hard by the lack of access to reproductive health care in our state.  It’s people of color, people without healthcare coverage, people who can’t afford care, those who are already parenting, folks in rural areas, and people without paid sick leave are the most impacted by longstanding restrictions on abortion care in Texas. 
+        </p>
+        <a href="#take-action"
+            class="dtc internal-button no-underline rotate2 grow"><span class="">Join the Movement</span></a> 
+            <br />
+            <p>
+              Extreme anti-abortion advocacy in Texas is part of a nationwide campaign to overturn Roe v. Wade and ban abortion in Texas. We need to fight back now. Join the movement now and fight for access in your community.
+            </p>
+            <a href="#take-action"
+                class="dtc internal-button no-underline rotate3 grow"><span class="">Join the Movement</span></a> 
+                <br />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- <section class="bg-aclu_blue">
+
+    <div class="center mw8 f5 white pv5 lh-copy ph2">
+      <div class="w-100">
+        <h2>
+          Advocacy Across Texas
+        </h2>
+        <p>
+          The map below shows each of the towns that have passed an anti-abortion ordinance, the areas that are
+          considering one, and the cities that have or are considering standing up for abortion access.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="bg-aclu_blue">
+
+    <div class="center mw8 f5 white pb5 lh-copy ph2">
+      <div class="w-100 tc">
+<iframe src="/map.html" class="w-80" style="border:none; height:35rem;"></iframe>      </div></div>
+        </section> -->
+
+
+  <div id="take-action" class="center mw8 f5 pv5 lh-copy ph2 flex">
+    <div class="w-40" style="background-image: url('/images/new-color-1_v2.jpg');background-size: cover; "></div>
+    
+    
+    
+  
+    <div class="w-60 pl5">
+
+      <h2 class="aclu_blue">
+        Protect Access to Abortion in Texas
+      </h2>
+      <h3>
+        Take the pledge to fight for access in your community.
+      </h3>
+      <p>
+        Extreme anti-abortion advocacy in Texas is part of a nationwide campaign to overturn Roe v. Wade. We need to fight back now. Take the pledge to support abortion access in Texas.
+        </p>
+        <link rel='preload' href='https://d3rse9xjbp8270.cloudfront.net/at.js' as='script' crossorigin='anonymous'>
+
+        <link rel='preload' href='https://d3rse9xjbp8270.cloudfront.net/at.min.css' as='style'>
+        
+        <script type='text/javascript' src='https://d3rse9xjbp8270.cloudfront.net/at.js' crossorigin='anonymous'></script>
+        
+        <div class="ngp-form"
+        
+             data-form-url="https://secure.everyaction.com/v1/Forms/6_HjkC-M6ku1lmNUC957nw2"
+        
+             data-fastaction-endpoint="https://fastaction.ngpvan.com"
+        
+             data-inline-errors="true"
+        
+             data-fastaction-nologin="true"
+        
+             data-databag-endpoint="https://profile.ngpvan.com"
+        
+             data-databag="everybody"
+        
+             data-mobile-autofocus="false" >
+        
+        </div>
+        
+
+    </div>
+  </div>
+<div class="w-100 center tc pv4 flex">
+  <img class="center" src="/images/logos.png">
+</div>
+
+<div class="bg-aclu_blue">
+  <div class="center w-80 bg-aclu_blue white flex">
+    <div class=" center pv6 w-60">
+      <h3>Is an anti-aboriton ordinance being introduced in your town? Or do you think that your town might want to show it’s support for abortion access? Let us know below. </h3>
+   
+      <form>
+        <div class="flex flex-wrap">
+          <div class="form-group w-75 pr2">
+            <label for="username">Name</label>
+            <input type="text" id="username" name="username" required="required">
+          </div>
+          <div class="form-group w-25">
+            <label for="password">ZIP</label>
+            <input type="password" id="password" name="password" required="required">
+          </div>
+          <div class="form-group w-50 pr2">
+            <label for="password">mobile number</label>
+            <input type="password" id="password" name="password" required="required">
+          </div>
+          <div class="form-group w-50">
+            <label for="password">email</label>
+            <input type="password" id="password" name="password" required="required">
+          </div>
+          <div class="form-group-long w-100 mh-20">
+            <label for="password">YOUR MESSAGE</label>
+            <input type="password" id="password" name="password" required="required">
+          </div>
+      
+          <div class="form-group ">
+            <div class="flex flex-wrap w-60">
+              
+              <label class="form-remember mr3">
+                <input type="checkbox">Yes I opt in to newsletters, texts, and more
+              </label>
+            </div>
+            <div class="flex flex-wrap mr5 w-60">
+              
+              <label class="form-remember mr3">
+                <input type="checkbox">Yeah I'd like to volunteer
+              </label>
+            </div>
+          </div>
+            <div class=" flex flex-wrap">
+              <a class="white f5 fw7 hover-black no-underline  dib ml2 pv1 ph3 ba bw2 highlight-pink grow" type="submit">Let us know</a>
+              
+            </div>
+          </div>
+      </form>   <div class="mt5">
+      <p class="f6 db b ttu lh-solid">© 2020 ACLU of Texas.</p>
+
+      <a href="/privacy/" title="Privacy" class="f6 fw7 dib pl2 mid-gray dim white no-underline">Privacy Policy</a>
+    </div>
+
+  </div>
+  <div class=" pv6 ml7 w-40">
+    <img src="/images/icon_spin.png" class="image w-50 ml5 ">
+
+  </div>
+</div>
+
+
+</div>
+</body>
+
+</html>
