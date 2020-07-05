@@ -112,7 +112,7 @@ overflow:hidden;
     font-weight: bold;
     text-transform: uppercase;
     color: black;
-    transform: rotate(-5deg);
+    /* transform: rotate(-5deg); */
   }
 
   .hero-header {
@@ -461,6 +461,10 @@ overflow:hidden;
     transform: rotate(-5deg);
   }
 
+  .rotate-top {
+    transform: rotate(-5deg);
+  }
+
   .rotate2 {
     transform: rotate(5deg);
   }
@@ -472,6 +476,46 @@ overflow:hidden;
   .bg-orange {
     background-color: #f79927;
   }
+
+  input.at-submit.btn-at.btn-at-primary {
+    background-color: #f79927;
+    padding: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;  
+    border-radius: 0;
+    font-size:1.2rem;
+    transform: rotate(-3deg);
+    }
+
+    input.at-submit.btn-at.btn-at-primary:hover {
+    background-color: #f79927;
+    padding: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;  
+    border-radius: 0;
+    font-size:1.2rem;
+    transform: rotate(0deg);
+    transform: scale(1.05);
+    transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+    }
+
+    .in-viewport {
+      transform: rotate(0deg);
+    transform: scale(1.05);
+    transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+    transition-delay: 1s;
+    }
+
+    .in-viewport-2 {
+      transform: rotate(0deg);
+    transform: scale(1.05);
+    transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+    transition-delay: 2s;
+    }
+
+
 </style>
 
 <body>
@@ -485,37 +529,37 @@ overflow:hidden;
         <a class=" f5 fw7 hover-black no-underline black-70 dn dib-ns pv2 ph3" href="/resources.html">Resources</a>
         <a class=" f5 fw7 hover-black no-underline black-70 dn dib-ns pv2 ph3" href="/">Updates</a>
         <a class=" f5 fw7 hover-black no-underline black-70 dn dib-l pv2 ph3" href="/">Get in Touch</a>
-        <a class="dib-l internal-button no-underline rotate2 grow pv2" href="#take-action">Join the Movement</a>
+        <a class="dib-l internal-button no-underline  grow pv2" href="#take-action">Join the Movement</a>
       </div>
     </div>
   </nav>
   <article class="v-mid flex w-100">
-    <div class="w-100 flex" style="background-color:#99cfa8">
-      <div class="w-50 pt2 pb5 highlight rotate">
+    <div class="w-100 flex" >
+      <div class="w-50 pt2 pb5 highlight rotate-top grow">
         <h1 class="f-subsubheadline pl6 pr2 mr6 lh-solid fw3 white pb0">We <br />believe <br />in a Texas</h1>
         <h3 class="f3 lh-copy pl6 pr2 mr6 lh-solid white mb5 secondary-text">where every person, no matter where they
           live or how much money they make, can control their destiny -- for themselves and their families.</h3>
         <div class="center pl6 pr5 mr6"><a href="#take-action"
-            class="dtc internal-button no-underline rotate2 grow f4"><span class="">Join the Movement</span></a> </div>
+            class="dtc internal-button no-underline rotate-top grow f4"><span class="">Join the Movement</span></a> </div>
       </div>
-      <div class="w-50" style="background-image: url('/images/newcolor-top.png');background-size: cover; ">
+      <div class="w-50 rotate2 grow" style="background-image: url('/images/newcolor-top.png');background-size: cover; ">
       </div>
     </div>
   </article>
 
   <section class=" pt6">
-    <div class="center mw8 f5 pv5 lh-copy ph2 pv5 flex">
+    <div class="center mw8  mv6 pv5 lh-copy ph2 pv5 flex">
       <!-- <div class="w-40 pv3 pr5">
         <img class="image" src="/images/icon_spin.png">
       </div> -->
       <div class="w-80 center">
-        <h2 class="rotate">
+        <h2 class="center tc f2">
           Access to reproductive care and abortion allows individuals and families to receive the support needed to
           thrive in our state. But right now, anti-abortion extremists are crisscrossing the state, pressuring Texas
           municipalities to adopt ordinances that would outlaw abortion in our communities.
         </h2>
-        <br />
-        <a href="#take-action" class="dtc internal-button no-underline rotate grow"><span class="">Learn about the ordinances</span></a>
+        <!-- <br /> -->
+        <!-- <a href="#take-action" class="dtc internal-button no-underline rotate grow"><span class="">Learn about the ordinances</span></a>
         <br />
         <br />
         <p class="rotate2 mt6 ">
@@ -536,7 +580,7 @@ overflow:hidden;
         <a href="#take-action" class="dtc internal-button no-underline rotate3 grow"><span class="">Join the
             Movement</span></a>
         <br />
-        <br />
+        <br /> -->
       </div>
 
     </div>
@@ -565,17 +609,17 @@ overflow:hidden;
 
 
   <div id="take-action" class="center w-100 f5 pv5 lh-copy  flex">
-    <div class="w-50" style="background-image: url('/images/new-color-1_v2.jpg');background-size: cover; "></div>
+    <div class="w-50" style="background-image: url('/images/take-action-photo-left.png');background-size: cover; "></div>
 
 
 
 
     <div class="w-50 pl5 pr6">
 
-      <h2 class="aclu-orange">
-        Protect Access to Abortion in Texas
+      <h2 class="aclu-orange f2">
+        Protect Access to Abortion <br />in Texas
       </h2>
-      <h3>
+      <h3 class="f3">
         Take the pledge to fight for access in your community.
       </h3>
       <p>
@@ -598,24 +642,24 @@ overflow:hidden;
 
     </div>
   </div>
-  <div class="w-100 center tc pv4 flex">
+  <!-- <div class="w-100 center tc pv4 flex">
     <img class="center" src="/images/logos.png">
-  </div>
+  </div> -->
 
 
   <div class="w-100 center tc pv6 flex">
-    <div class="di w-50 vh-75 rotate3 grow white" style="  display: flex;
+    <div class="di w-50 vh-75 rotate2 grow white" style="  display: flex;
   justify-content: center;
   align-items: center;
 vertical-align: bottom; background-image: url('/images/top-left.jpg');background-size: cover;
 ">
 <div class="w-50 tc center ">
 
-      <h2>
+      <h2 class="black f2">
         Map & Data
       </h2>
-      <p>
-        Learn about the current state of abortion restrictions in Teas and where we're fighting back.
+      <p class="black f3">
+        Learn about the current state of abortion restrictions in Texas and where we're fighting back.
       </p>
       <br />
       <br />
@@ -630,10 +674,10 @@ vertical-align: bottom; background-image: url('/images/top-right.jpg');backgroun
 ">
       <div class="w-50 tc center ">
 
-        <h2>
+        <h2 class=" f2">
           Local Action
         </h2>
-        <p>
+        <p class=" f3">
           We are building momentum in Texas cities large and small to pass proactive abortion ordinances. </p>
           <br />
           <br />
@@ -646,7 +690,7 @@ vertical-align: bottom; background-image: url('/images/top-right.jpg');backgroun
 
 
   <div class="w-100 center tc  flex">
-    <div class="di w-25 vh-50 rotate2 grow" style="  display: flex;
+    <div class="di w-25 vh-50" style="  display: flex;
   justify-content: center;
   align-items: center;
 vertical-align: bottom; background-image: url('/images/newcolor-top-orange.png');background-size: cover;
@@ -655,7 +699,7 @@ vertical-align: bottom; background-image: url('/images/newcolor-top-orange.png')
         Resources
       </h3>
     </div>
-    <div class="di w-25 vh-50 rotate3 grow" style="  display: flex;
+    <div class="di w-25 vh-50" style="  display: flex;
 justify-content: center;
 align-items: center;
 vertical-align: bottom; background-image: url('/images/bottom-2.jpg');background-size: cover;
@@ -664,7 +708,7 @@ vertical-align: bottom; background-image: url('/images/bottom-2.jpg');background
         Updates
       </h3>
     </div>
-    <div class="di w-25 vh-50 rotate grow" style="  display: flex;
+    <div class="di w-25 vh-50" style="  display: flex;
 justify-content: center;
 align-items: center;
 vertical-align: bottom; background-image: url('/images/bottom-3.jpg');background-size: cover;
@@ -673,7 +717,7 @@ vertical-align: bottom; background-image: url('/images/bottom-3.jpg');background
         Contact Us
       </h3>
     </div>
-    <div class="di w-25 vh-50 grow" style="  display: flex;
+    <div class="di w-25 vh-50" style="  display: flex;
 justify-content: center;
 align-items: center;
 vertical-align: bottom; background-image: url('/images/new-color-1_v2.jpg');background-size: cover;
@@ -696,7 +740,7 @@ vertical-align: bottom; background-image: url('/images/new-color-1_v2.jpg');back
           <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-30-l mr3"
             placeholder="Your Zip Code" type="text" name="zip-code" value="" id="zip-code">
           <input
-            class="f6 f5-l internal-button button-reset fl pv3 tc bn bg-animate bg-green hover-bg-green white pointer w-100 w-25-m w-20-l grow"
+            class="f6 f5-l internal-button rotate3 button-reset fl pv3 tc bn bg-animate bg-green hover-bg-green white pointer w-100 w-25-m w-20-l grow"
             type="submit" value="Sign Up">
         </div>
       </fieldset>
@@ -730,5 +774,62 @@ vertical-align: bottom; background-image: url('/images/new-color-1_v2.jpg');back
 
   </div>
 </body>
+<script src="https://unpkg.com/in-view@0.6.1/dist/in-view.min.js"></script>
 
+<script type="text/javascript">
+// here we want to detect when our .section enters the viewport
+// when it does, we want to add a class of 'in-viewport', and
+// when it exits we want to remove it again
+inView('.rotate')
+  .on('enter', section => {
+    // classList.add is the same as jQuery’s .addClass() method
+    // but the vanilla javascript version
+    section.classList.add('in-viewport')
+  })
+  .on('exit', section => {
+    section.classList.remove('in-viewport')
+  })
+
+// here we set the class to add only once we have scrolled 0.2 of 
+// our section into the viewport
+inView.threshold(.7)
+</script>
+
+<script type="text/javascript">
+  // here we want to detect when our .section enters the viewport
+  // when it does, we want to add a class of 'in-viewport', and
+  // when it exits we want to remove it again
+  inView('.rotate2')
+    .on('enter', section => {
+      // classList.add is the same as jQuery’s .addClass() method
+      // but the vanilla javascript version
+      section.classList.add('in-viewport-2')
+    })
+    .on('exit', section => {
+      section.classList.remove('in-viewport-2')
+    })
+  
+  // here we set the class to add only once we have scrolled 0.2 of 
+  // our section into the viewport
+  inView.threshold(.7)
+  </script>
+
+<script type="text/javascript">
+  // here we want to detect when our .section enters the viewport
+  // when it does, we want to add a class of 'in-viewport', and
+  // when it exits we want to remove it again
+  inView('.rotate3')
+    .on('enter', section => {
+      // classList.add is the same as jQuery’s .addClass() method
+      // but the vanilla javascript version
+      section.classList.add('in-viewport')
+    })
+    .on('exit', section => {
+      section.classList.remove('in-viewport')
+    })
+  
+  // here we set the class to add only once we have scrolled 0.2 of 
+  // our section into the viewport
+  inView.threshold(.7)
+  </script>
 </html>
