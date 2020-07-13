@@ -43,7 +43,8 @@
 
   p,
   input,
-  legend {
+  legend,
+  data-text {
     font-family: 'GTAmerica';
   }
 
@@ -166,11 +167,11 @@ overflow:hidden;
   }
 
   .aclu_blue {
-    color: #0b3879;
+    color: #88c897;
   }
 
   .bg-aclu_blue {
-    background-color: #0b3879;
+    background-color: #88c897;
   }
 
   .form {
@@ -478,27 +479,25 @@ overflow:hidden;
   }
 
   input.at-submit.btn-at.btn-at-primary {
-    background-color: #f79927;
+    background-color: #88c897;
     padding: 1.5em;
     font-weight: bold;
     text-transform: uppercase;
     color: black;  
     border-radius: 0;
     font-size:1.2rem;
-    transform: rotate(-3deg);
     }
 
     input.at-submit.btn-at.btn-at-primary:hover {
-    background-color: #f79927;
+    background-color: #88c897;
     padding: 1.5em;
     font-weight: bold;
     text-transform: uppercase;
     color: black;  
     border-radius: 0;
     font-size:1.2rem;
-    transform: rotate(0deg);
+    
     transform: scale(1.05);
-    transition: transform .25s ease-out,-webkit-transform .25s ease-out;
     }
 
     .in-viewport {
@@ -514,16 +513,33 @@ overflow:hidden;
     transition: transform .25s ease-out,-webkit-transform .25s ease-out;
     transition-delay: 2s;
     }
+.textOverImage:hover:after {
+  content:attr(data-text);
+  transition: all 1s ease-out,-webkit-transform .25s ease-out;
+  color:white;
+
+  font-family:'GTAmerica';
+}
+
+.evenhover:hover {
+  background: rgba(0, 0, 0, 0.7);
+  background-size: cover;
+  background-blend-mode:multiply;
+  transform: scale(1.05);
+    transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+    color:white;
+
+}
 
 
 </style>
 
 <body>
-  <nav class="bg-white">
+  <nav class="bg-white mv3">
     <div class=" center w-100 dt">
       <div class="dtc w5 v-mid pa3">
         <a href="/" class="dib">
-          <img src="/images/logo.png"> </a>
+          <img src="/images/logo.png" class="rotate"> </a>
       </div>
       <div class="dtc v-mid tr pa3 ttu ">
         <a class=" f5 fw7 hover-black no-underline black-70 dn dib-ns pv2 ph3" href="/resources.html">Resources</a>
@@ -533,54 +549,39 @@ overflow:hidden;
       </div>
     </div>
   </nav>
-  <article class="v-mid flex w-100">
+  <article class="v-mid flex w-100" style="background-image: url('/images/Repro1.jpeg');background-size: cover;">
     <div class="w-100 flex" >
-      <div class="w-50 pt2 pb5 highlight rotate-top grow">
-        <h1 class="f-subsubheadline pl6 pr2 mr6 lh-solid fw3 white pb0">We <br />believe <br />in a Texas</h1>
-        <h3 class="f3 lh-copy pl6 pr2 mr6 lh-solid white mb5 secondary-text">where every person, no matter where they
-          live or how much money they make, can control their destiny -- for themselves and their families.</h3>
+      <div class="w-30 pv2 bg-aclu_blue mv6">
+        <h1 class="f-subsubheadline pl4 pr4  lh-solid fw3 white pb0">OUR TIME IS NOW</h1>
+<!--         
         <div class="center pl6 pr5 mr6"><a href="#take-action"
-            class="dtc internal-button no-underline rotate-top grow f4"><span class="">Join the Movement</span></a> </div>
+            class="dtc internal-button no-underline rotate-top grow f4"><span class="">Join the Movement</span></a> </div> -->
       </div>
-      <div class="w-50 rotate2 grow" style="background-image: url('/images/newcolor-top.png');background-size: cover; ">
-      </div>
+
     </div>
   </article>
 
-  <section class=" pt6">
-    <div class="center mw8  mv6 pv5 lh-copy ph2 pv5 flex">
+  <section class=" ">
+    <div class=" w-100  mv3 pv3 lh-copy ph2 pv5 flex">
       <!-- <div class="w-40 pv3 pr5">
         <img class="image" src="/images/icon_spin.png">
       </div> -->
-      <div class="w-80 center">
-        <h2 class="center tc f2">
-          Access to reproductive care and abortion allows individuals and families to receive the support needed to
-          thrive in our state. But right now, anti-abortion extremists are crisscrossing the state, pressuring Texas
-          municipalities to adopt ordinances that would outlaw abortion in our communities.
-        </h2>
-        <!-- <br /> -->
-        <!-- <a href="#take-action" class="dtc internal-button no-underline rotate grow"><span class="">Learn about the ordinances</span></a>
-        <br />
-        <br />
-        <p class="rotate2 mt6 ">
-          Texans are already hit hard by the lack of access to reproductive health care in our state. It’s people of
-          color, people without healthcare coverage, people who can’t afford care, those who are already parenting,
-          folks in rural areas, and people without paid sick leave are the most impacted by longstanding restrictions on
-          abortion care in Texas.
-        </p>
-        <a href="#take-action" class=" mb4 dtc internal-button no-underline rotate2 grow"><span class="">Read updates</span></a>
-        <br />
-        <br />
-        <p class="rotate3 mt4">
-          Extreme anti-abortion advocacy in Texas is part of a nationwide campaign to overturn Roe v. Wade and ban
-          abortion in Texas. We need to fight back now. Join the movement now and fight for access in your community.
-        </p>
-        <br />
-        <br />
-        <a href="#take-action" class="dtc internal-button no-underline rotate3 grow"><span class="">Join the
-            Movement</span></a>
-        <br />
-        <br /> -->
+      <div class="w-33 w-100-m ph3 ma1  evenhover textOverImage h5" data-text="Right now, anti-abortion extremists are crisscrossing the state, pressuring Texas municipalities to adopt ordinances that would outlaw abortion in our communities, which is a part of long term campaign to ban abortion in Texas. We must fight back." style="background-image: url('/images/1of3.jpg');background-size: cover;">
+        <h3 class="  f3">
+          Reproductive Freedom is Under Attack        </h3>
+      </div>
+
+      <div class="w-33 w-100-m ph3 ma1 evenhover textOverImage h5" data-text="Without access to reproductive health care, our communities can’t thrive. It’s people of color, people who can’t afford care, those who are already parenting, folks in rural areas, and people without paid sick leave that are suffering because of legal restrictions on abortion care. We can’t wait on the Courts to grant us our rights anymore, we have to take them." style="background-image: url('/images/2of3.jpg');background-size: cover;">
+        <h3 class=" f3">
+          We Can’t Afford to Wait
+        </h3>
+      </div>
+
+
+      <div class="w-33 w-100-m ph3 ma1 evenhover textOverImage h5" data-text="This is a diverse movement of people from every corner of the state and from all backgrounds who are coming together, for the first time, to expand essential health care access for all Texans, no matter who they are or where they are from." style="background-image: url('/images/3of3.jpg');background-size: cover;">
+        <h3 class="f3">
+          Be a Part of Something Big
+        </h3>
       </div>
 
     </div>
@@ -609,7 +610,7 @@ overflow:hidden;
 
 
   <div id="take-action" class="center w-100 f5 pv5 lh-copy  flex">
-    <div class="w-50" style="background-image: url('/images/take-action-photo-left.png');background-size: cover; "></div>
+    <div class="w-50" style="background-image: url('/images/Repro6.jpeg');background-size: cover; background-position-x: 50%;"></div>
 
 
 
@@ -648,7 +649,7 @@ overflow:hidden;
 
 
   <div class="w-100 center tc pv6 flex">
-    <div class="di w-50 vh-75 rotate2 grow white" style="  display: flex;
+    <div class="di w-50 vh-75  white" style="  display: flex;
   justify-content: center;
   align-items: center;
 vertical-align: bottom; background-image: url('/images/top-left.jpg');background-size: cover;
@@ -667,7 +668,7 @@ vertical-align: bottom; background-image: url('/images/top-left.jpg');background
           Map</span></a>
     </div>
   </div>
-    <div class="di w-50 vh-75 rotate grow white" style="  display: flex;
+    <div class="di w-50 vh-75 white" style="  display: flex;
 justify-content: center;
 align-items: center;
 vertical-align: bottom; background-image: url('/images/top-right.jpg');background-size: cover;
@@ -681,7 +682,7 @@ vertical-align: bottom; background-image: url('/images/top-right.jpg');backgroun
           We are building momentum in Texas cities large and small to pass proactive abortion ordinances. </p>
           <br />
           <br />
-        <a href="#take-action" class="center di internal-button no-underline rotate3 grow">Connect with
+        <a href="#take-action" class="center di internal-button no-underline  grow">Connect with
             Us</a>
       </div>
     </div>
@@ -774,7 +775,7 @@ vertical-align: bottom; background-image: url('/images/new-color-1_v2.jpg');back
 
   </div>
 </body>
-<script src="https://unpkg.com/in-view@0.6.1/dist/in-view.min.js"></script>
+<!-- <script src="https://unpkg.com/in-view@0.6.1/dist/in-view.min.js"></script>
 
 <script type="text/javascript">
 // here we want to detect when our .section enters the viewport
@@ -831,5 +832,5 @@ inView.threshold(.7)
   // here we set the class to add only once we have scrolled 0.2 of 
   // our section into the viewport
   inView.threshold(.7)
-  </script>
+  </script> -->
 </html>
