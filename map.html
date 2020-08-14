@@ -168,7 +168,7 @@ content:'▶ ';
 }
 
 a#passedmenu:before {
-content:'▷ ';
+content:' ';
 }
 
 
@@ -190,7 +190,28 @@ content:'▶ ';
 }
 
 a#deniedmenu:before {
-content:'▷ ';
+content:' ';
+}
+
+a#consideringmenu  {
+  background-color:white;
+  color:#f79915;
+}
+a#consideringmenu.active {
+background-color:#f79915;
+color:white
+}
+
+a#consideringmenu.active:hover {
+background:#f76000;
+}
+
+a#consideringmenu.active:before {
+content:'▶ ';
+}
+
+a#consideringmenu:before {
+content:' ';
 }
 
 a#potentialmenu  {
@@ -211,7 +232,7 @@ content:'▶ ';
 }
 
 a#potentialmenu:before {
-content:'▷ ';
+content:' ';
 }
 
 
@@ -234,7 +255,7 @@ content:'▶ ';
 }
 
 a#proactivemenu:before {
-content:'▷ ';
+content:' ';
 }
 
 h3.proactive {
@@ -243,6 +264,10 @@ h3.proactive {
 
 h3.potential {
   background-color:#eed21b
+}
+
+h3.considering {
+  background-color:#f68809
 }
 
 h3.denied {
@@ -317,7 +342,7 @@ h3.passed {
 
             map.addLayer(
 {
-'id': 'earthquakes-heat',
+'id': 'passed-heat',
 'type': 'heatmap',
 'source': {
                 'type': 'geojson',
@@ -420,7 +445,7 @@ h3.passed {
               //set popup text 
               //You can adjust the values of the popup to match the headers of your CSV. 
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
-              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Status: ` + `</b>` +  e.features[0].properties.Stage + `</h4>` +`<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
+              var description = `<h3 class=` +e.features[0].properties.Tab + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Status: ` + `</b>` +  e.features[0].properties.Status + `</h4>` +`<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
@@ -454,41 +479,33 @@ h3.passed {
         });
       };
     });
+    var toggleableLayerIds = [ 'passed', 'passed-heat' ];
 
-    // enumerate ids of the layers
-    var toggleableLayerIds = ['passed'];
-
-   // set up the corresponding toggle button for each layer
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
 var link = document.createElement('a');
 link.href = '#';
 link.className = 'active';
-link.textContent = id;
-link.id = 'passedmenu'
- 
-link.onclick = function(e) {
-var clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
- 
-// toggle layer visibility by changing the layout object's visibility property
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-}
+link.textContent = "Passed";
+link.id = "passedmenu";
+link.onclick = function (e) {
+    for(var index in toggleableLayerIds) {
+      var clickedLayer = toggleableLayerIds[index];
+      e.preventDefault();
+      e.stopPropagation();
+  
+      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+  
+      if (visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+      } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+      }
+    }
+    
 };
- 
 var layers = document.getElementById('menu');
 layers.appendChild(link);
-}
-
 
   </script>
 
@@ -550,7 +567,7 @@ layers.appendChild(link);
 
             map.addLayer(
 {
-'id': 'denied-heatmap',
+'id': 'denied-heat',
 'type': 'heatmap',
 'source': {
                 'type': 'geojson',
@@ -631,7 +648,7 @@ layers.appendChild(link);
               //set popup text 
               //You can adjust the values of the popup to match the headers of your CSV. 
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
-              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Status: ` + `</b>` +  e.features[0].properties.Stage + `</h4>` +`<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
+              var description = `<h3 class=` +e.features[0].properties.Tab + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
@@ -666,42 +683,241 @@ layers.appendChild(link);
       };
     });
 
-    // enumerate ids of the layers
-    var toggleableLayerIds = ['denied'];
+    var toggleableLayerIdsDen = [ 'denied', 'denied-heat' ];
 
-   // set up the corresponding toggle button for each layer
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
 var link = document.createElement('a');
 link.href = '#';
 link.className = 'active';
-link.textContent = id;
-link.id = 'deniedmenu';
- 
-link.onclick = function(e) {
-var clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
- 
-// toggle layer visibility by changing the layout object's visibility property
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-}
+link.textContent = "Denied";
+link.id = "deniedmenu";
+link.onclick = function (e) {
+    for(var index in toggleableLayerIdsDen) {
+      var clickedLayer = toggleableLayerIdsDen[index];
+      e.preventDefault();
+      e.stopPropagation();
+  
+      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+  
+      if (visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+      } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+      }
+    }
+    
 };
- 
 var layers = document.getElementById('menu');
 layers.appendChild(link);
-}
 
 
   </script>
+
+    <!-- considering SCRIPT-->>
+    <script>
+
+      var transformRequest = (url, resourceType) => {
+        var isMapboxRequest =
+          url.slice(8, 22) === "api.mapbox.com" ||
+          url.slice(10, 26) === "tiles.mapbox.com";
+        return {
+          url: isMapboxRequest
+            ? url.replace("?", "?pluginName=sheetMapper&")
+            : url
+        };
+      };
+      //YOUR TURN: add your Mapbox token 
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZXZhbm9uZWlsIiwiYSI6ImNpb3Vld3BtejAwcmp1Zm00bnY0cGZja2IifQ._kXkIWTy9bzQUcXhO5bgrA'; //Mapbox token 
+      var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/evanoneil/ckah8cg1p02vv1jo0xep7uiu9', //stylesheet location
+        // center: [-99.5120986, 31.8160381], // starting position
+  
+      });
+  
+      $(document).ready(function () {
+        $.ajax({
+          type: "GET",
+          //YOUR TURN: Replace with csv export link
+          url: 'https://docs.google.com/spreadsheets/d/1TqKu8IaVLS7dnwvhBugg0LfSW7c1zbJLRx4VtGrlCpE/gviz/tq?tqx=out:csv&sheet=considering',
+          dataType: "text",
+          success: function (considering) { makeGeoJSON(considering); }
+        });
+  
+  
+        function makeGeoJSON(considering) {
+          csv2geojson.csv2geojson(considering, {
+            latfield: 'Lat',
+            lonfield: 'Long',
+            delimiter: ','
+          }, function (err, data) {
+            map.on('load', function () {
+  
+              //Add the the layer to the map 
+              map.addLayer({
+                'id': 'considering',
+                'type': 'circle',
+                'source': {
+                  'type': 'geojson',
+                  'data': data
+                },
+                'paint': {
+                  'circle-radius': 3,
+                  'circle-color': "#f68809",
+                  'circle-stroke-color': 'black',
+      'circle-stroke-width': 1
+                }
+              });
+  
+              map.addLayer(
+  {
+  'id': 'considering-heat',
+  'type': 'heatmap',
+  'source': {
+                  'type': 'geojson',
+                  'data': data
+                },
+  'maxzoom': 9,
+  'paint': {
+  // Increase the heatmap weight based on frequency and property magnitude
+  'heatmap-weight': [
+  'interpolate',
+  ['linear'],
+  ['get', 'mag'],
+  0,
+  0,
+  6,
+  1
+  ],
+  // Increase the heatmap color weight weight by zoom level
+  // heatmap-intensity is a multiplier on top of heatmap-weight
+  'heatmap-intensity': [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  0,
+  1,
+  9,
+  3
+  ],
+  // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+  // Begin color ramp at 0-stop with a 0-transparancy color
+  // to create a blur-like effect.
+  'heatmap-color': [
+  'interpolate',
+  ['linear'],
+  ['heatmap-density'],
+  0,
+  'rgba(0,0,0,0)',
+  0.25,
+  'rgb(246,136,9)',
+  0.5,
+  'rgb(246,136,9)',
+  0.75,
+  'rgb(246,136,9)',
+  1,
+  'rgb(246,136,9)'
+  ],
+  // Adjust the heatmap radius by zoom level
+  'heatmap-radius': [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  0,
+  2,
+  7,
+  25
+  ],
+  // Transition from heatmap to circle layer by zoom level
+  'heatmap-opacity': [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  7,
+  1,
+  9,
+  0
+  ]
+  }
+  },
+  'waterway-label'
+  );
+  
+  
+              // When a click event occurs on a feature in the csvData layer, open a popup at the
+              // location of the feature, with description HTML from its properties.
+              map.on('click', 'considering', function (e) {
+                var coordinates = e.features[0].geometry.coordinates.slice();
+  
+                //set popup text 
+                //You can adjust the values of the popup to match the headers of your CSV. 
+                // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
+                var description = `<h3 class=` +e.features[0].properties.Tab + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
+  
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                  coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+  
+                //add Popup to map
+  
+                new mapboxgl.Popup()
+                  .setLngLat(coordinates)
+                  .setHTML(description)
+                  .addTo(map);
+              });
+  
+              // Change the cursor to a pointer when the mouse is over the places layer.
+              map.on('mouseenter', 'considering', function () {
+                map.getCanvas().style.cursor = 'pointer';
+              });
+  
+              // Change it back to a pointer when it leaves.
+              map.on('mouseleave', 'places', function () {
+                map.getCanvas().style.cursor = '';
+              });
+  
+    
+  
+            });
+  
+          });
+        };
+      });
+  
+      var toggleableLayerIdsCon = [ 'considering', 'considering-heat' ];
+  
+  var link = document.createElement('a');
+  link.href = '#';
+  link.className = 'active';
+  link.textContent = "Considering";
+  link.id = "consideringmenu";
+  link.onclick = function (e) {
+      for(var index in toggleableLayerIdsCon) {
+        var clickedLayer = toggleableLayerIdsCon[index];
+        e.preventDefault();
+        e.stopPropagation();
+    
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+    
+        if (visibility === 'visible') {
+            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            this.className = '';
+        } else {
+            this.className = 'active';
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+      }
+      
+  };
+  var layers = document.getElementById('menu');
+  layers.appendChild(link);
+  
+  
+    </script>
 
   <!-- potential SCRIPT-->>
   <script>
@@ -760,7 +976,7 @@ layers.appendChild(link);
 
             map.addLayer(
 {
-'id': 'potential-heatmap',
+'id': 'potential-heat',
 'type': 'heatmap',
 'source': {
                 'type': 'geojson',
@@ -841,7 +1057,7 @@ layers.appendChild(link);
               //set popup text 
               //You can adjust the values of the popup to match the headers of your CSV. 
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
-              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Status: ` + `</b>` +  e.features[0].properties.Stage + `</h4>` +`<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
+              var description = `<h3 class=` +e.features[0].properties.Tab + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
@@ -876,40 +1092,33 @@ layers.appendChild(link);
       };
     });
 
-    // enumerate ids of the layers
-    var toggleableLayerIds = ['potential'];
+    var toggleableLayerIdsPot = [ 'potential', 'potential-heat' ];
 
-   // set up the corresponding toggle button for each layer
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
 var link = document.createElement('a');
 link.href = '#';
 link.className = 'active';
-link.textContent = id;
-link.id = 'potentialmenu';
- 
-link.onclick = function(e) {
-var clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
- 
-// toggle layer visibility by changing the layout object's visibility property
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-}
+link.textContent = "Potential";
+link.id = "potentialmenu";
+link.onclick = function (e) {
+    for(var index in toggleableLayerIdsPot) {
+      var clickedLayer = toggleableLayerIdsPot[index];
+      e.preventDefault();
+      e.stopPropagation();
+  
+      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+  
+      if (visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+      } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+      }
+    }
+    
 };
- 
 var layers = document.getElementById('menu');
 layers.appendChild(link);
-}
-
 
   </script>
 
@@ -972,7 +1181,7 @@ layers.appendChild(link);
 
             map.addLayer(
 {
-'id': 'proactive-heatmap',
+'id': 'proactive-heat',
 'type': 'heatmap',
 'source': {
                 'type': 'geojson',
@@ -1053,7 +1262,7 @@ layers.appendChild(link);
               //set popup text 
               //You can adjust the values of the popup to match the headers of your CSV. 
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
-              var description = `<h3 class=` +e.features[0].properties.Status + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Status: ` + `</b>` +  e.features[0].properties.Stage + `</h4>` +`<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
+              var description = `<h3 class=` +e.features[0].properties.Tab + '>' + e.features[0].properties.City + `</h3>` + `<h4>` + `<b>` + `Ordinance Information: ` + `</b>` +  e.features[0].properties.Info + `</h4>` + `<h4>` + `<b>` + `Action: ` + `</b>` + `<a href="` + e.features[0].properties.ActionLink + `">` + e.features[0].properties.ActionText + `</a>` + `</h4>` + `<h4>` + `<b>` + `Population: ` + `</b>` +  e.features[0].properties.Population + `</h4>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
@@ -1088,39 +1297,34 @@ layers.appendChild(link);
       };
     });
 
-    // enumerate ids of the layers
-    var toggleableLayerIds = ['proactive'];
+    var toggleableLayerIdsPro = [ 'proactive', 'proactive-heat' ];
 
-  // set up the corresponding toggle button for each layer
-for (var i = 0; i < toggleableLayerIds.length; i++) {
-var id = toggleableLayerIds[i];
- 
 var link = document.createElement('a');
 link.href = '#';
 link.className = 'active';
-link.textContent = id;
-link.id = 'proactivemenu';
- 
-link.onclick = function(e) {
-var clickedLayer = this.textContent;
-e.preventDefault();
-e.stopPropagation();
- 
-var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
- 
-// toggle layer visibility by changing the layout object's visibility property
-if (visibility === 'visible') {
-map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-this.className = '';
-} else {
-this.className = 'active';
-map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-}
+link.textContent = "Proactive";
+link.id = "proactivemenu";
+link.onclick = function (e) {
+    for(var index in toggleableLayerIdsPro) {
+      var clickedLayer = toggleableLayerIdsPro[index];
+      e.preventDefault();
+      e.stopPropagation();
+  
+      var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+  
+      if (visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+      } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+      }
+    }
+    
 };
- 
 var layers = document.getElementById('menu');
 layers.appendChild(link);
-}
+
 
   </script>
 
